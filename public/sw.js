@@ -70,6 +70,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Ignorer les requêtes chrome-extension et autres protocoles non supportés
+  if (request.url.startsWith('chrome-extension:') || 
+      request.url.startsWith('moz-extension:') || 
+      request.url.startsWith('safari-extension:')) {
+    return;
+  }
+
   // Stratégie pour les fichiers statiques
   if (isStaticFile(request.url)) {
     event.respondWith(cacheFirst(request));
@@ -101,6 +108,13 @@ self.addEventListener('fetch', (event) => {
 // Stratégie Cache First (pour les fichiers statiques)
 async function cacheFirst(request) {
   try {
+    // Ignorer les requêtes chrome-extension et autres protocoles non supportés
+    if (request.url.startsWith('chrome-extension:') || 
+        request.url.startsWith('moz-extension:') || 
+        request.url.startsWith('safari-extension:')) {
+      return fetch(request);
+    }
+
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
       return cachedResponse;
@@ -121,6 +135,13 @@ async function cacheFirst(request) {
 // Stratégie Network First (pour l'API)
 async function networkFirst(request) {
   try {
+    // Ignorer les requêtes chrome-extension et autres protocoles non supportés
+    if (request.url.startsWith('chrome-extension:') || 
+        request.url.startsWith('moz-extension:') || 
+        request.url.startsWith('safari-extension:')) {
+      return fetch(request);
+    }
+
     const networkResponse = await fetch(request);
     
     if (networkResponse.ok) {
