@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide d'installation - Usemy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #00FFFF 0%, #ff38b8 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+        
+        .device-section {
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .device-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .device-icon {
+            font-size: 2rem;
+        }
+        
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 1rem;
+            padding-left: 3rem;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .note {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .note-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Guide d'installation Usemy</h1>
+        
+        <div class="device-section">
+            <div class="device-title">
+                <span class="device-icon">🍎</span>
+                <span>iPhone / iPad (Safari)</span>
+            </div>
+            <ol class="steps">
+                <li>Ouvrez Safari sur votre iPhone ou iPad</li>
+                <li>Naviguez vers le site Usemy</li>
+                <li>Appuyez sur le bouton <span class="highlight">Partager</span> (icône carrée avec flèche vers le haut)</li>
+                <li>Faites défiler vers le bas et appuyez sur <span class="highlight">"Ajouter à l'écran d'accueil"</span></li>
+                <li>Appuyez sur <span class="highlight">"Ajouter"</span> pour confirmer</li>
+                <li>L'icône Usemy apparaîtra sur votre écran d'accueil !</li>
+            </ol>
+            <div class="note">
+                <div class="note-title">💡 Astuce :</div>
+                <p>Une fois installée, l'app fonctionnera comme une application native avec un accès rapide depuis votre écran d'accueil.</p>
+            </div>
+        </div>
+        
+        <div class="device-section">
+            <div class="device-title">
+                <span class="device-icon">🤖</span>
+                <span>Android (Chrome)</span>
+            </div>
+            <ol class="steps">
+                <li>Ouvrez Chrome sur votre appareil Android</li>
+                <li>Naviguez vers le site Usemy</li>
+                <li>Appuyez sur le menu (trois points verticaux) en haut à droite</li>
+                <li>Sélectionnez <span class="highlight">"Installer l'application"</span> ou <span class="highlight">"Ajouter à l'écran d'accueil"</span></li>
+                <li>Appuyez sur <span class="highlight">"Installer"</span> pour confirmer</li>
+                <li>L'icône Usemy apparaîtra sur votre écran d'accueil !</li>
+            </ol>
+            <div class="note">
+                <div class="note-title">💡 Astuce :</div>
+                <p>L'app sera installée comme une vraie application Android et apparaîtra dans votre liste d'applications.</p>
+            </div>
+        </div>
+        
+        <div class="device-section">
+            <div class="device-title">
+                <span class="device-icon">💻</span>
+                <span>Ordinateur (Chrome, Edge, Firefox)</span>
+            </div>
+            <ol class="steps">
+                <li>Ouvrez votre navigateur (Chrome, Edge, ou Firefox)</li>
+                <li>Naviguez vers le site Usemy</li>
+                <li>Recherchez l'icône d'installation dans la barre d'adresse (⬇️ ou +)</li>
+                <li>Cliquez sur l'icône d'installation</li>
+                <li>Cliquez sur <span class="highlight">"Installer"</span> dans la popup qui apparaît</li>
+                <li>L'app s'ouvrira dans une fenêtre dédiée !</li>
+            </ol>
+            <div class="note">
+                <div class="note-title">💡 Astuce :</div>
+                <p>L'app fonctionnera comme une application de bureau avec sa propre fenêtre et icône dans le menu Démarrer.</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/" class="back-btn">← Retour au site</a>
+        </div>
+    </div>
+</body>
+</html>
