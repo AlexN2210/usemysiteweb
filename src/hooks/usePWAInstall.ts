@@ -38,6 +38,15 @@ export const usePWAInstall = () => {
     // En localhost, on considère qu'elle est installée si elle est en mode standalone
     const isReallyInstalled = isStandalone;
 
+    console.log('🔍 État PWA initial:', {
+      isIOS,
+      isAndroid,
+      isStandalone,
+      isReallyInstalled,
+      url: window.location.href,
+      userAgent: navigator.userAgent
+    });
+
     setState(prev => ({
       ...prev,
       isIOS,
@@ -48,6 +57,7 @@ export const usePWAInstall = () => {
 
     // Écouter l'événement beforeinstallprompt
     const handleBeforeInstallPrompt = (e: Event) => {
+      console.log('🎉 beforeinstallprompt déclenché !', e);
       e.preventDefault();
       setState(prev => ({
         ...prev,
@@ -88,6 +98,12 @@ export const usePWAInstall = () => {
   }, []);
 
   const installPWA = async (): Promise<boolean> => {
+    console.log('🚀 Tentative d\'installation PWA...', {
+      isInstalled: state.isInstalled,
+      hasDeferredPrompt: !!state.deferredPrompt,
+      isInstallable: state.isInstallable
+    });
+
     if (state.isInstalled) {
       showToast('✅ Usemy est déjà installé sur votre appareil', 'info');
       return false;
