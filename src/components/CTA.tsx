@@ -40,7 +40,7 @@ const CTA: React.FC = () => {
           </div>
 
           {/* Download buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in delay-300">
+          <div className="download-buttons flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in delay-300">
             <button 
               onClick={handleDownloadClick}
               className="group bg-white text-gray-900 px-10 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-4 min-w-[280px]"

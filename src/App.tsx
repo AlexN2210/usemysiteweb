@@ -12,30 +12,37 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 import PWADebug from './components/PWADebug';
+import PWAWrapper from './components/PWAWrapper';
+import PWANotification from './components/PWANotification';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main>
-        <HeroSection />
-        <ProblemSolution />
-        <Features />
-        <WhyUsemy />
-        <AppDemo />
-        <BusinessModel />
-        <GrowthPlan />
-        <CTA />
-        <FAQ />
-      </main>
-      <Footer />
-      
-      {/* PWA Install Prompt */}
-      <PWAInstallPrompt />
-      
-      {/* PWA Debug (dev only) */}
-      <PWADebug />
-    </div>
+    <PWAWrapper>
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <main>
+          <HeroSection />
+          <ProblemSolution />
+          <Features />
+          <WhyUsemy />
+          <AppDemo />
+          <BusinessModel />
+          <GrowthPlan />
+          <CTA />
+          <FAQ />
+        </main>
+        <Footer />
+        
+        {/* PWA Install Prompt */}
+        <PWAInstallPrompt />
+        
+        {/* PWA Notification */}
+        <PWANotification />
+        
+        {/* PWA Debug (dev only) */}
+        <PWADebug />
+      </div>
+    </PWAWrapper>
   );
 }
 

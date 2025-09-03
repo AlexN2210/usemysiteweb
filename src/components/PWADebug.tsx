@@ -39,7 +39,7 @@ const PWADebug: React.FC = () => {
   }
 
   return (
-    <div className="fixed top-4 left-4 bg-black/90 text-white p-4 rounded-lg text-xs max-w-sm z-50">
+    <div className="pwa-debug fixed top-4 left-4 bg-black/90 text-white p-4 rounded-lg text-xs max-w-sm z-50">
       <h3 className="font-bold mb-2">🔧 Debug PWA</h3>
       
       <div className="space-y-1">

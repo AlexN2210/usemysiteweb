@@ -65,21 +65,32 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // Ignorer les requêtes non-GET
+  if (request.method !== 'GET') {
+    return;
+  }
+
   // Stratégie pour les fichiers statiques
-  if (request.method === 'GET' && isStaticFile(request.url)) {
+  if (isStaticFile(request.url)) {
     event.respondWith(cacheFirst(request));
     return;
   }
 
   // Stratégie pour l'API
-  if (request.method === 'GET' && isApiRequest(request.url)) {
+  if (isApiRequest(request.url)) {
     event.respondWith(networkFirst(request));
     return;
   }
 
   // Stratégie pour les images
-  if (request.method === 'GET' && isImageRequest(request.url)) {
+  if (isImageRequest(request.url)) {
     event.respondWith(cacheFirst(request));
+    return;
+  }
+
+  // Stratégie pour les pages HTML (PWA)
+  if (request.headers.get('accept')?.includes('text/html')) {
+    event.respondWith(networkFirst(request));
     return;
   }
 

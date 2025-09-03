@@ -125,3 +125,101 @@ html {
 .pulse-slow {
   animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* PWA Mode Styles */
+.pwa-mode {
+  /* Masquer les éléments de navigation du navigateur */
+  -webkit-app-region: no-drag;
+}
+
+.pwa-mode .app-container {
+  /* Assurer que l'app prend tout l'espace disponible */
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height pour mobile */
+}
+
+/* Styles spécifiques pour le mode PWA */
+.pwa-mode header {
+  /* Ajuster le header pour le mode PWA */
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.pwa-mode .pwa-status-bar {
+  /* Barre de statut PWA */
+  background: linear-gradient(135deg, #00FFFF 0%, #ff38b8 100%);
+  height: env(safe-area-inset-top, 0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+/* Masquer les éléments de debug en mode PWA */
+.pwa-mode .pwa-debug {
+  display: none !important;
+}
+
+/* Ajuster les boutons de téléchargement en mode PWA */
+.pwa-mode .download-buttons {
+  display: none !important;
+}
+
+/* Styles pour les notifications PWA */
+.pwa-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1001;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Mode PWA sur mobile */
+@media (max-width: 768px) {
+  .pwa-mode {
+    /* Optimiser pour mobile PWA */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .pwa-mode .app-container {
+    /* Assurer que l'app prend tout l'écran mobile */
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+}
+
+/* Mode PWA sur desktop */
+@media (min-width: 769px) {
+  .pwa-mode .app-container {
+    /* Styles pour desktop PWA */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+}
