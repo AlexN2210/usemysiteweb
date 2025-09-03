@@ -1,20 +1,15 @@
-const CACHE_NAME = 'usemy-v1.0.1';
-const STATIC_CACHE = 'usemy-static-v1.0.1';
-const DYNAMIC_CACHE = 'usemy-dynamic-v1.0.1';
+// Service Worker pour Usemy PWA
+const CACHE_NAME = 'usemy-pwa-v1';
+const STATIC_CACHE = 'usemy-static-v1';
+const DYNAMIC_CACHE = 'usemy-dynamic-v1';
 
-// Fichiers à mettre en cache statiquement
+// Fichiers statiques à mettre en cache
 const STATIC_FILES = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/offline.html'
-];
-
-// URLs de l'API à mettre en cache dynamiquement
-const API_CACHE_PATTERNS = [
-  /\/api\/users/,
-  /\/api\/posts/,
-  /\/api\/auth/
+  '/offline.html',
+  '/install-guide.html'
 ];
 
 // Installation du Service Worker
@@ -24,15 +19,15 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then((cache) => {
-        console.log('📦 Service Worker: Mise en cache des fichiers statiques');
+        console.log('📦 Cache statique ouvert');
         return cache.addAll(STATIC_FILES);
       })
       .then(() => {
-        console.log('✅ Service Worker: Installation terminée');
+        console.log('✅ Service Worker installé avec succès');
         return self.skipWaiting();
       })
       .catch((error) => {
-        console.error('❌ Service Worker: Erreur lors de l\'installation', error);
+        console.error('❌ Erreur lors de l\'installation:', error);
       })
   );
 });
@@ -47,14 +42,14 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
-              console.log('🗑️ Service Worker: Suppression de l\'ancien cache', cacheName);
+              console.log('🗑️ Suppression de l\'ancien cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
       })
       .then(() => {
-        console.log('✅ Service Worker: Activation terminée');
+        console.log('✅ Service Worker activé');
         return self.clients.claim();
       })
   );
@@ -63,8 +58,7 @@ self.addEventListener('activate', (event) => {
 // Interception des requêtes
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  const url = new URL(request.url);
-
+  
   // Ignorer les requêtes non-GET
   if (request.method !== 'GET') {
     return;
@@ -73,19 +67,24 @@ self.addEventListener('fetch', (event) => {
   // Ignorer les requêtes chrome-extension et autres protocoles non supportés
   if (request.url.startsWith('chrome-extension:') || 
       request.url.startsWith('moz-extension:') || 
-      request.url.startsWith('safari-extension:')) {
+      request.url.startsWith('safari-extension:') ||
+      request.url.startsWith('edge-extension:')) {
+    return;
+  }
+
+  // Ignorer les requêtes vers des domaines externes (sauf notre domaine)
+  try {
+    const url = new URL(request.url);
+    if (url.origin !== location.origin && !url.hostname.includes('vercel.app')) {
+      return;
+    }
+  } catch (e) {
     return;
   }
 
   // Stratégie pour les fichiers statiques
   if (isStaticFile(request.url)) {
     event.respondWith(cacheFirst(request));
-    return;
-  }
-
-  // Stratégie pour l'API
-  if (isApiRequest(request.url)) {
-    event.respondWith(networkFirst(request));
     return;
   }
 
@@ -108,7 +107,7 @@ self.addEventListener('fetch', (event) => {
 // Stratégie Cache First (pour les fichiers statiques)
 async function cacheFirst(request) {
   try {
-    // Ignorer les requêtes chrome-extension et autres protocoles non supportés
+    // Double vérification pour les extensions
     if (request.url.startsWith('chrome-extension:') || 
         request.url.startsWith('moz-extension:') || 
         request.url.startsWith('safari-extension:')) {
@@ -123,7 +122,7 @@ async function cacheFirst(request) {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, networkResponse.clone());
+      await cache.put(request, networkResponse.clone());
     }
     return networkResponse;
   } catch (error) {
@@ -135,7 +134,7 @@ async function cacheFirst(request) {
 // Stratégie Network First (pour l'API)
 async function networkFirst(request) {
   try {
-    // Ignorer les requêtes chrome-extension et autres protocoles non supportés
+    // Double vérification pour les extensions
     if (request.url.startsWith('chrome-extension:') || 
         request.url.startsWith('moz-extension:') || 
         request.url.startsWith('safari-extension:')) {
@@ -146,7 +145,7 @@ async function networkFirst(request) {
     
     if (networkResponse.ok) {
       const cache = await caches.open(DYNAMIC_CACHE);
-      cache.put(request, networkResponse.clone());
+      await cache.put(request, networkResponse.clone());
     }
     
     return networkResponse;
@@ -159,106 +158,50 @@ async function networkFirst(request) {
     }
 
     // Retourner une page offline pour les requêtes HTML
-    if (request.headers.get('accept').includes('text/html')) {
-      return caches.match('/offline.html');
+    if (request.headers.get('accept')?.includes('text/html')) {
+      const offlinePage = await caches.match('/offline.html');
+      if (offlinePage) {
+        return offlinePage;
+      }
     }
 
     return new Response('Données non disponibles hors ligne', { 
       status: 503,
-      headers: { 'Content-Type': 'application/json' }
+      statusText: 'Service Unavailable'
     });
   }
 }
 
-// Vérifier si c'est un fichier statique
+// Fonctions utilitaires
 function isStaticFile(url) {
-  return url.includes('/static/') || 
-         url.includes('.js') || 
+  return url.includes('.js') || 
          url.includes('.css') || 
          url.includes('.png') || 
          url.includes('.jpg') || 
-         url.includes('.svg') ||
-         url.includes('manifest.json');
+         url.includes('.jpeg') || 
+         url.includes('.gif') || 
+         url.includes('.svg') || 
+         url.includes('.woff') || 
+         url.includes('.woff2') || 
+         url.includes('.ttf') || 
+         url.includes('.eot') ||
+         url.includes('.ico');
 }
 
-// Vérifier si c'est une requête API
-function isApiRequest(url) {
-  return API_CACHE_PATTERNS.some(pattern => pattern.test(url));
-}
-
-// Vérifier si c'est une requête d'image
 function isImageRequest(url) {
-  return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url);
+  return url.includes('.png') || 
+         url.includes('.jpg') || 
+         url.includes('.jpeg') || 
+         url.includes('.gif') || 
+         url.includes('.svg') || 
+         url.includes('.webp');
 }
 
-// Gestion des notifications push
-self.addEventListener('push', (event) => {
-  console.log('📱 Service Worker: Notification push reçue');
-  
-  const options = {
-    body: event.data ? event.data.text() : 'Nouvelle notification Usemy',
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/icon-72x72.png',
-    vibrate: [200, 100, 200],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
-    actions: [
-      {
-        action: 'explore',
-        title: 'Voir',
-        icon: '/icons/action-view.png'
-      },
-      {
-        action: 'close',
-        title: 'Fermer',
-        icon: '/icons/action-close.png'
-      }
-    ]
-  };
-
-  event.waitUntil(
-    self.registration.showNotification('Usemy', options)
-  );
-});
-
-// Gestion des clics sur les notifications
-self.addEventListener('notificationclick', (event) => {
-  console.log('👆 Service Worker: Clic sur notification');
-  
-  event.notification.close();
-
-  if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  } else if (event.action === 'close') {
-    // Fermer la notification
-    return;
-  } else {
-    // Clic sur le corps de la notification
-    event.waitUntil(
-      clients.openWindow('/')
-    );
+// Gestion des messages
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 });
 
-// Synchronisation en arrière-plan
-self.addEventListener('sync', (event) => {
-  console.log('🔄 Service Worker: Synchronisation en arrière-plan');
-  
-  if (event.tag === 'background-sync') {
-    event.waitUntil(doBackgroundSync());
-  }
-});
-
-async function doBackgroundSync() {
-  try {
-    // Synchroniser les données en attente
-    console.log('🔄 Synchronisation des données...');
-    // Ici vous pouvez ajouter la logique de synchronisation
-  } catch (error) {
-    console.error('❌ Erreur de synchronisation:', error);
-  }
-}
+console.log('🎉 Service Worker Usemy chargé avec succès !');
