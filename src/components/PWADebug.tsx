@@ -9,7 +9,9 @@ const PWADebug: React.FC = () => {
     isAndroid, 
     isStandalone, 
     deferredPrompt,
-    installPWA 
+    installPWA,
+    clearPWACache,
+    resetPWAState
   } = usePWAInstall();
 
   const [debugInfo, setDebugInfo] = useState<any>({});
@@ -34,6 +36,16 @@ const PWADebug: React.FC = () => {
     console.log('📱 Résultat:', result);
   };
 
+  const handleClearCache = async () => {
+    if (confirm('Êtes-vous sûr de vouloir vider le cache PWA ? La page va se recharger.')) {
+      await clearPWACache();
+    }
+  };
+
+  const handleResetState = () => {
+    resetPWAState();
+  };
+
   if (process.env.NODE_ENV !== 'development') {
     return null;
   }
@@ -53,12 +65,28 @@ const PWADebug: React.FC = () => {
         <div>📋 Prompt disponible: <span className={debugInfo.beforeInstallPrompt ? 'text-green-400' : 'text-red-400'}>{debugInfo.beforeInstallPrompt ? 'Oui' : 'Non'}</span></div>
       </div>
 
-      <button 
-        onClick={handleTestInstall}
-        className="mt-2 bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700"
-      >
-        Tester Installation
-      </button>
+      <div className="flex flex-col gap-1 mt-2">
+        <button 
+          onClick={handleTestInstall}
+          className="bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700"
+        >
+          Tester Installation
+        </button>
+        
+        <button 
+          onClick={handleResetState}
+          className="bg-yellow-600 text-white px-2 py-1 rounded text-xs hover:bg-yellow-700"
+        >
+          Reset État
+        </button>
+        
+        <button 
+          onClick={handleClearCache}
+          className="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"
+        >
+          Vider Cache
+        </button>
+      </div>
 
       <details className="mt-2">
         <summary className="cursor-pointer text-blue-400">Détails techniques</summary>

@@ -34,12 +34,17 @@ export const usePWAInstall = () => {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                         (window.navigator as any).standalone === true;
 
+    // Vérifier si l'app est vraiment installée (pas juste en mode standalone)
+    const isReallyInstalled = isStandalone && 
+                             !window.location.search.includes('source=pwa') &&
+                             !window.location.href.includes('localhost');
+
     setState(prev => ({
       ...prev,
       isIOS,
       isAndroid,
       isStandalone,
-      isInstalled: isStandalone,
+      isInstalled: isReallyInstalled,
     }));
 
     // Écouter l'événement beforeinstallprompt
@@ -202,9 +207,47 @@ export const usePWAInstall = () => {
     }, duration);
   };
 
+  const clearPWACache = async () => {
+    try {
+      // Vider le cache du service worker
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(
+          cacheNames.map(cacheName => caches.delete(cacheName))
+        );
+        console.log('🧹 Cache PWA vidé');
+      }
+
+      // Réinitialiser l'état
+      setState(prev => ({
+        ...prev,
+        isInstalled: false,
+        isInstallable: false,
+        deferredPrompt: null,
+      }));
+
+      // Recharger la page
+      window.location.reload();
+    } catch (error) {
+      console.error('Erreur lors du nettoyage du cache:', error);
+    }
+  };
+
+  const resetPWAState = () => {
+    setState(prev => ({
+      ...prev,
+      isInstalled: false,
+      isInstallable: false,
+      deferredPrompt: null,
+    }));
+    console.log('🔄 État PWA réinitialisé');
+  };
+
   return {
     ...state,
     installPWA,
     showInstallGuide,
+    clearPWACache,
+    resetPWAState,
   };
 };
