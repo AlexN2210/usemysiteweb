@@ -34,10 +34,9 @@ export const usePWAInstall = () => {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                         (window.navigator as any).standalone === true;
 
-    // Vérifier si l'app est vraiment installée (pas juste en mode standalone)
-    const isReallyInstalled = isStandalone && 
-                             !window.location.search.includes('source=pwa') &&
-                             !window.location.href.includes('localhost');
+    // Vérifier si l'app est vraiment installée
+    // En localhost, on considère qu'elle est installée si elle est en mode standalone
+    const isReallyInstalled = isStandalone;
 
     setState(prev => ({
       ...prev,
