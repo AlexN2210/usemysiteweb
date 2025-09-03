@@ -11,6 +11,7 @@ import CTA from './components/CTA';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
+import PWADebug from './components/PWADebug';
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
       
       {/* PWA Install Prompt */}
       <PWAInstallPrompt />
+      
+      {/* PWA Debug (dev only) */}
+      <PWADebug />
     </div>
   );
 }
