@@ -30,10 +30,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Ignorer les requêtes vers des domaines externes
+  // Autoriser les requêtes vers le backend
   try {
     const url = new URL(request.url);
-    if (url.origin !== location.origin) {
+    if (url.origin !== location.origin && 
+        !url.hostname.includes('usemyreact-backend.vercel.app')) {
       return;
     }
   } catch (e) {
