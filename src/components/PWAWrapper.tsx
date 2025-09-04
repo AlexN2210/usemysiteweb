@@ -12,15 +12,23 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
   const urlParams = new URLSearchParams(window.location.search);
   const isFromPWA = urlParams.get('pwa') === 'true';
   const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
-  const isPWAMode = isStandaloneMode || isFromPWA;
+  
+  // Détection Android spécifique
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const isAndroidStandalone = isAndroid && (window.navigator as any).standalone === true;
+  
+  const isPWAMode = isStandaloneMode || isFromPWA || isAndroidStandalone;
   
   const [isPWA, setIsPWA] = useState(isPWAMode);
   
   console.log('🔍 PWAWrapper initial:', {
     isFromPWA,
     isStandaloneMode,
+    isAndroid,
+    isAndroidStandalone,
     isPWAMode,
-    url: window.location.href
+    url: window.location.href,
+    userAgent: navigator.userAgent
   });
 
   useEffect(() => {
