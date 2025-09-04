@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Smartphone } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { usePWAInstall } from '../hooks/usePWAInstall';
 
 const Header: React.FC = () => {
@@ -36,8 +36,16 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-cyan-500 to-pink-500 p-2 rounded-xl">
-              <Smartphone className="h-6 w-6 text-white" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg bg-gradient-to-r from-cyan-500 to-pink-500 p-1">
+              <img 
+                src="/icons/android-launchericon-192-192.png" 
+                alt="Usemy Logo" 
+                className="w-full h-full object-contain bg-white rounded-lg"
+                onError={(e) => {
+                  console.log('Erreur chargement logo:', e);
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
             </div>
             <span className={`text-2xl font-bold bg-gradient-to-r from-cyan-600 to-pink-600 bg-clip-text text-transparent ${
               isScrolled ? '' : 'text-white'
