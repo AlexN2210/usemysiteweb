@@ -7,18 +7,5 @@
   "background_color": "#ffffff",
   "theme_color": "#00FFFF",
   "scope": "/",
-  "icons": [
-    {
-      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDQvMjkvMTDjh7YwAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTA0VDAyOjA3OjE1KzAwOjAw2q8VJQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0wNFQwMjowNzoxNSswMDowMABQhJQAAAAASUVORK5CYII=",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDQvMjkvMTDjh7YwAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTA0VDAyOjA3OjE1KzAwOjAw2q8VJQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0wNFQwMjowNzoxNSswMDowMABQhJQAAAAASUVORK5CYII=",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    }
-  ]
+  "icons": []
 }
