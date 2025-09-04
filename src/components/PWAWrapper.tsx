@@ -73,32 +73,18 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
 
   console.log('🔄 PWAWrapper render:', { isPWA, isStandalone });
 
-  // Test visuel radical
+  // Appliquer les styles PWA
   if (isPWAMode) {
-    document.body.style.backgroundColor = '#FF0000'; // Rouge vif
-    document.body.style.color = '#FFFFFF';
-    console.log('🚨 MODE PWA DÉTECTÉ - FOND ROUGE APPLIQUÉ !');
+    document.documentElement.classList.add('pwa-mode');
+    document.body.classList.add('pwa-mode');
+    console.log('🎉 MODE PWA ACTIVÉ - Styles appliqués !');
+  } else {
+    document.documentElement.classList.remove('pwa-mode');
+    document.body.classList.remove('pwa-mode');
   }
 
   return (
     <div className={`app-container ${isPWA ? 'pwa-mode' : 'browser-mode'}`}>
-      {isPWAMode && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          background: '#FF0000',
-          color: '#FFFFFF',
-          padding: '10px',
-          textAlign: 'center',
-          zIndex: 9999,
-          fontSize: '20px',
-          fontWeight: 'bold'
-        }}>
-          🎉 MODE PWA ACTIVÉ ! 🎉
-        </div>
-      )}
       {children}
     </div>
   );
