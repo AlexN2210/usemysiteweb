@@ -35,13 +35,18 @@ export const usePWAInstall = () => {
                         (window.navigator as any).standalone === true;
 
     // Vérifier si l'app est vraiment installée
-    // En localhost, on considère qu'elle est installée si elle est en mode standalone
-    const isReallyInstalled = isStandalone;
+    // Détecter le paramètre ?pwa=true dans l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const isFromPWA = urlParams.get('pwa') === 'true';
+    
+    // L'app est installée si elle est en mode standalone OU si elle vient de la PWA
+    const isReallyInstalled = isStandalone || isFromPWA;
 
     console.log('🔍 État PWA initial:', {
       isIOS,
       isAndroid,
       isStandalone,
+      isFromPWA,
       isReallyInstalled,
       url: window.location.href,
       userAgent: navigator.userAgent
