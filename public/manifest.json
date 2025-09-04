@@ -2,7 +2,7 @@
   "name": "Usemy",
   "short_name": "Usemy",
   "description": "Trouvez le bon professionnel",
-  "start_url": "/test-pwa.html?pwa=true",
+  "start_url": "/?pwa=true",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#00FFFF",

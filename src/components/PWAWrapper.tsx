@@ -16,7 +16,7 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
     
     // Détecter si l'app est lancée depuis un lien PWA
     const urlParams = new URLSearchParams(window.location.search);
-    const isFromPWA = urlParams.get('source') === 'pwa';
+    const isFromPWA = urlParams.get('pwa') === 'true';
     
     setIsPWA(isStandaloneMode || isFromPWA);
 
