@@ -48,7 +48,9 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
       console.log('❌ Mode navigateur normal');
     }
 
-  }, [isStandalone]);
+  }, [isStandalone, window.location.search]);
+
+  console.log('🔄 PWAWrapper render:', { isPWA, isStandalone });
 
   return (
     <div className={`app-container ${isPWA ? 'pwa-mode' : 'browser-mode'}`}>
