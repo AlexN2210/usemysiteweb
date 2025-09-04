@@ -89,14 +89,39 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
   if (isPWAMode) {
     document.documentElement.classList.add('pwa-mode');
     document.body.classList.add('pwa-mode');
+    document.body.style.backgroundColor = '#00FFFF';
     console.log('🎉 MODE PWA ACTIVÉ - Styles appliqués !');
+    
+    // Forcer le rechargement si nécessaire
+    if (!isPWA) {
+      console.log('🔄 Rechargement forcé pour activer le mode PWA');
+      window.location.reload();
+    }
   } else {
     document.documentElement.classList.remove('pwa-mode');
     document.body.classList.remove('pwa-mode');
+    document.body.style.backgroundColor = '';
   }
 
   return (
     <div className={`app-container ${isPWA ? 'pwa-mode' : 'browser-mode'}`}>
+      {isPWAMode && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          background: '#00FFFF',
+          color: '#000000',
+          padding: '10px',
+          textAlign: 'center',
+          zIndex: 9999,
+          fontSize: '16px',
+          fontWeight: 'bold'
+        }}>
+          🎉 MODE PWA ACTIVÉ ! 🎉
+        </div>
+      )}
       {children}
     </div>
   );
