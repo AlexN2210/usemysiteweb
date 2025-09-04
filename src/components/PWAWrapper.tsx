@@ -7,7 +7,21 @@ interface PWAWrapperProps {
 
 const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
   const { isStandalone } = usePWAInstall();
-  const [isPWA, setIsPWA] = useState(false);
+  
+  // Test direct de détection PWA
+  const urlParams = new URLSearchParams(window.location.search);
+  const isFromPWA = urlParams.get('pwa') === 'true';
+  const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
+  const isPWAMode = isStandaloneMode || isFromPWA;
+  
+  const [isPWA, setIsPWA] = useState(isPWAMode);
+  
+  console.log('🔍 PWAWrapper initial:', {
+    isFromPWA,
+    isStandaloneMode,
+    isPWAMode,
+    url: window.location.href
+  });
 
   useEffect(() => {
     // Détecter si l'app est lancée en mode PWA
@@ -17,6 +31,13 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
     // Détecter si l'app est lancée depuis un lien PWA
     const urlParams = new URLSearchParams(window.location.search);
     const isFromPWA = urlParams.get('pwa') === 'true';
+    
+    console.log('🔍 PWA Detection dans useEffect:', {
+      isStandaloneMode,
+      isFromPWA,
+      url: window.location.href,
+      search: window.location.search
+    });
     
     setIsPWA(isStandaloneMode || isFromPWA);
 
