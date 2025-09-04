@@ -17,6 +17,16 @@ import PWANotification from './components/PWANotification';
 import PWATestMode from './components/PWATestMode';
 
 function App() {
+  // Redirection vers la vraie app si paramètre redirect
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectUrl = urlParams.get('redirect');
+  
+  if (redirectUrl) {
+    console.log('🔄 Redirection vers:', redirectUrl);
+    window.location.href = `https://${redirectUrl}`;
+    return <div>Redirection vers votre application...</div>;
+  }
+
   return (
     <PWAWrapper>
       <div className="min-h-screen bg-gray-50">
