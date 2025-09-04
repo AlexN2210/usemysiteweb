@@ -34,8 +34,19 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
       isStandaloneMode,
       isFromPWA,
       userAgent: navigator.userAgent,
-      displayMode: window.matchMedia('(display-mode: standalone)').matches
+      displayMode: window.matchMedia('(display-mode: standalone)').matches,
+      url: window.location.href,
+      urlParams: window.location.search
     });
+
+    // Test visuel - changer la couleur de fond
+    if (isStandaloneMode || isFromPWA) {
+      document.body.style.backgroundColor = '#00FFFF';
+      console.log('🎉 MODE PWA ACTIVÉ - Fond bleu appliqué !');
+    } else {
+      document.body.style.backgroundColor = '';
+      console.log('❌ Mode navigateur normal');
+    }
 
   }, [isStandalone]);
 
