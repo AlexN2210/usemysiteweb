@@ -17,6 +17,16 @@ import PWANotification from './components/PWANotification';
 import PWATestMode from './components/PWATestMode';
 
 function App() {
+  // Test direct de détection PWA
+  const urlParams = new URLSearchParams(window.location.search);
+  const isFromPWA = urlParams.get('pwa') === 'true';
+  
+  console.log('🔍 App.tsx - Test PWA:', {
+    isFromPWA,
+    url: window.location.href,
+    search: window.location.search
+  });
+
   return (
     <PWAWrapper>
       <div className="min-h-screen bg-gray-50">
