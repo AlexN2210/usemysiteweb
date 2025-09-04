@@ -91,12 +91,16 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
     document.body.classList.add('pwa-mode');
     document.body.style.backgroundColor = '#00FFFF';
     document.body.style.color = '#000000';
+    document.body.style.minHeight = '100vh';
     console.log('🎉 MODE PWA ACTIVÉ - Styles appliqués !');
+    console.log('🔍 Classes appliquées:', document.body.className);
+    console.log('🔍 Style appliqué:', document.body.style.backgroundColor);
   } else {
     document.documentElement.classList.remove('pwa-mode');
     document.body.classList.remove('pwa-mode');
     document.body.style.backgroundColor = '';
     document.body.style.color = '';
+    document.body.style.minHeight = '';
   }
 
   return (
