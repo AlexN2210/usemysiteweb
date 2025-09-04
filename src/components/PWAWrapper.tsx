@@ -17,7 +17,10 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
   const isAndroid = /Android/.test(navigator.userAgent);
   const isAndroidStandalone = isAndroid && (window.navigator as any).standalone === true;
   
-  const isPWAMode = isStandaloneMode || isFromPWA || isAndroidStandalone;
+  // Force le mode PWA sur Android si l'app est installée
+  const isAndroidPWA = isAndroid && window.matchMedia('(display-mode: fullscreen)').matches;
+  
+  const isPWAMode = isStandaloneMode || isFromPWA || isAndroidStandalone || isAndroidPWA;
   
   const [isPWA, setIsPWA] = useState(isPWAMode);
   
@@ -26,9 +29,11 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
     isStandaloneMode,
     isAndroid,
     isAndroidStandalone,
+    isAndroidPWA,
     isPWAMode,
     url: window.location.href,
-    userAgent: navigator.userAgent
+    userAgent: navigator.userAgent,
+    displayMode: window.matchMedia('(display-mode: fullscreen)').matches
   });
 
   useEffect(() => {
