@@ -2,11 +2,11 @@
   "name": "Usemy",
   "short_name": "Usemy",
   "description": "Trouvez le bon professionnel",
-  "start_url": "/",
+  "start_url": "https://usemyreactfrontend.vercel.app/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#00FFFF",
-  "scope": "/",
+  "scope": "https://usemyreactfrontend.vercel.app/",
   "icons": [
     {
       "src": "/icons/android-launchericon-192-192.png",
