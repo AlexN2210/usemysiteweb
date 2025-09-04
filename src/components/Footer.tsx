@@ -45,8 +45,9 @@ const Footer: React.FC = () => {
             </div>
             
             <p className="text-gray-300 leading-relaxed max-w-md">
-              La plateforme de mise en relation professionnelle qui révolutionne votre quotidien. 
-              Trouvez le bon professionnel en quelques clics, comme sur Tinder.
+            USEMY – La plateforme de mise en relation professionnelle qui simplifie votre quotidien.
+            Trouvez le professionnel idéal en quelques clics, rapidement et facilement. 
+              
             </p>
             
             <div className="space-y-3">

@@ -23,7 +23,8 @@ function App() {
   
   if (redirectUrl) {
     console.log('🔄 Redirection vers:', redirectUrl);
-    window.location.href = `https://${redirectUrl}`;
+    // Redirection dans la même fenêtre pour garder le mode PWA
+    window.location.replace(`https://${redirectUrl}`);
     return <div>Redirection vers votre application...</div>;
   }
 
