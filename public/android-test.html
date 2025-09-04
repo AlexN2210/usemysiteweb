@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Android PWA</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .status {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .pwa-mode {
+            background: #00FFFF !important;
+            color: white !important;
+        }
+        .android-mode {
+            background: #FF0000 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="status" class="status">
+        <h1>Test Android PWA</h1>
+        <p>URL: <span id="url"></span></p>
+        <p>User Agent: <span id="useragent"></span></p>
+        <p>Mode Standalone: <span id="standalone"></span></p>
+        <p>Mode Fullscreen: <span id="fullscreen"></span></p>
+        <p>Mode Browser: <span id="browser"></span></p>
+        <p>Android: <span id="android"></span></p>
+        <p>Mode PWA: <span id="pwa-mode"></span></p>
+    </div>
+
+    <script>
+        // Détecter tous les modes
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        const isFullscreen = window.matchMedia('(display-mode: fullscreen)').matches;
+        const isBrowser = window.matchMedia('(display-mode: browser)').matches;
+        const isAndroid = /Android/.test(navigator.userAgent);
+        
+        // Mode PWA
+        const isPWAMode = isStandalone || isFullscreen;
+
+        // Afficher les informations
+        document.getElementById('url').textContent = window.location.href;
+        document.getElementById('useragent').textContent = navigator.userAgent;
+        document.getElementById('standalone').textContent = isStandalone ? 'OUI' : 'NON';
+        document.getElementById('fullscreen').textContent = isFullscreen ? 'OUI' : 'NON';
+        document.getElementById('browser').textContent = isBrowser ? 'OUI' : 'NON';
+        document.getElementById('android').textContent = isAndroid ? 'OUI' : 'NON';
+        document.getElementById('pwa-mode').textContent = isPWAMode ? 'OUI' : 'NON';
+
+        // Appliquer le style
+        if (isPWAMode) {
+            document.body.classList.add('pwa-mode');
+            document.getElementById('status').classList.add('pwa-mode');
+        } else if (isAndroid) {
+            document.body.classList.add('android-mode');
+            document.getElementById('status').classList.add('android-mode');
+        }
+
+        console.log('🔍 Test Android PWA:', {
+            url: window.location.href,
+            isStandalone,
+            isFullscreen,
+            isBrowser,
+            isAndroid,
+            isPWAMode,
+            userAgent: navigator.userAgent
+        });
+    </script>
+</body>
+</html>
