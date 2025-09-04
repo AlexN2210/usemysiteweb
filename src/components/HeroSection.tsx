@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Apple, Play } from 'lucide-react';
 import { usePWAInstall } from '../hooks/usePWAInstall';
+import IOSInstallGuide from './IOSInstallGuide';
 
 const HeroSection: React.FC = () => {
-  const { installPWA, isInstalled } = usePWAInstall();
+  const { installPWA, isInstalled, isIOS } = usePWAInstall();
+  const [showIOSGuide, setShowIOSGuide] = useState(false);
+
+  useEffect(() => {
+    const handleShowIOSGuide = () => {
+      setShowIOSGuide(true);
+    };
+
+    window.addEventListener('showIOSInstallGuide', handleShowIOSGuide);
+    return () => {
+      window.removeEventListener('showIOSInstallGuide', handleShowIOSGuide);
+    };
+  }, []);
 
   const handleDownloadClick = async () => {
-    await installPWA();
+    if (isIOS) {
+      // Pour iOS, on affiche directement le guide
+      setShowIOSGuide(true);
+    } else {
+      await installPWA();
+    }
   };
 
   return (
@@ -140,6 +158,12 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Guide d'installation iOS */}
+      <IOSInstallGuide 
+        isVisible={showIOSGuide} 
+        onClose={() => setShowIOSGuide(false)} 
+      />
     </section>
   );
 };

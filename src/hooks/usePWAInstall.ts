@@ -145,11 +145,16 @@ export const usePWAInstall = () => {
   };
 
   const showInstallGuide = () => {
+    // Pour iOS, on va déclencher un événement personnalisé pour afficher le guide
+    if (state.isIOS) {
+      const event = new CustomEvent('showIOSInstallGuide');
+      window.dispatchEvent(event);
+      return;
+    }
+    
     let message = '';
     
-    if (state.isIOS) {
-      message = '📱 Sur iOS : Appuyez sur le bouton Partager (📤) puis "Ajouter à l\'écran d\'accueil"';
-    } else if (state.isAndroid) {
+    if (state.isAndroid) {
       message = '📱 Sur Android : Appuyez sur le menu (⋮) dans votre navigateur puis "Installer l\'application"';
     } else {
       message = '💻 Sur ordinateur : Cliquez sur l\'icône d\'installation (⬇️) dans la barre d\'adresse de votre navigateur';
