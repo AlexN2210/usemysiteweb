@@ -243,6 +243,21 @@ export const usePWAInstall = () => {
         console.log('🧹 Cache PWA vidé');
       }
 
+      // Forcer la mise à jour du service worker
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          // Envoyer un message pour forcer la mise à jour
+          registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
+          
+          // Attendre un peu puis recharger
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          return;
+        }
+      }
+
       // Réinitialiser l'état
       setState(prev => ({
         ...prev,
@@ -268,11 +283,39 @@ export const usePWAInstall = () => {
     console.log('🔄 État PWA réinitialisé');
   };
 
+  const forceUpdate = async () => {
+    try {
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          // Forcer la mise à jour
+          await registration.update();
+          
+          // Si un nouveau service worker est en attente, l'activer
+          if (registration.waiting) {
+            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            showToast('🔄 Mise à jour en cours...', 'info', 2000);
+            
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } else {
+            showToast('✅ Application à jour !', 'success');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour:', error);
+      showToast('❌ Erreur lors de la mise à jour', 'error');
+    }
+  };
+
   return {
     ...state,
     installPWA,
     showInstallGuide,
     clearPWACache,
     resetPWAState,
+    forceUpdate,
   };
 };

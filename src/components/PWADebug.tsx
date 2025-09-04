@@ -11,7 +11,8 @@ const PWADebug: React.FC = () => {
     deferredPrompt,
     installPWA,
     clearPWACache,
-    resetPWAState
+    resetPWAState,
+    forceUpdate
   } = usePWAInstall();
 
   const [debugInfo, setDebugInfo] = useState<any>({});
@@ -85,6 +86,13 @@ const PWADebug: React.FC = () => {
           className="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"
         >
           Vider Cache
+        </button>
+        
+        <button 
+          onClick={forceUpdate}
+          className="bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700"
+        >
+          Forcer Mise à jour
         </button>
       </div>
 
