@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Apple, Play } from 'lucide-react';
 import { usePWAInstall } from '../hooks/usePWAInstall';
-import IOSInstallGuide from './IOSInstallGuide';
+import IOSInstallOverlay from './IOSInstallOverlay';
 
 const HeroSection: React.FC = () => {
   const { installPWA, isInstalled, isIOS } = usePWAInstall();
-  const [showIOSGuide, setShowIOSGuide] = useState(false);
+  const [showIOSOverlay, setShowIOSOverlay] = useState(false);
 
   useEffect(() => {
-    const handleShowIOSGuide = () => {
-      setShowIOSGuide(true);
+    const handleShowIOSOverlay = () => {
+      setShowIOSOverlay(true);
     };
 
-    window.addEventListener('showIOSInstallGuide', handleShowIOSGuide);
+    window.addEventListener('showIOSInstallGuide', handleShowIOSOverlay);
     return () => {
-      window.removeEventListener('showIOSInstallGuide', handleShowIOSGuide);
+      window.removeEventListener('showIOSInstallGuide', handleShowIOSOverlay);
     };
   }, []);
 
   const handleDownloadClick = async () => {
     if (isIOS) {
-      // Pour iOS, on affiche directement le guide
-      setShowIOSGuide(true);
+      // Pour iOS, on affiche directement l'overlay
+      setShowIOSOverlay(true);
     } else {
       await installPWA();
     }
@@ -159,10 +159,10 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Guide d'installation iOS */}
-      <IOSInstallGuide 
-        isVisible={showIOSGuide} 
-        onClose={() => setShowIOSGuide(false)} 
+      {/* Overlay d'installation iOS */}
+      <IOSInstallOverlay 
+        isVisible={showIOSOverlay} 
+        onClose={() => setShowIOSOverlay(false)} 
       />
     </section>
   );
