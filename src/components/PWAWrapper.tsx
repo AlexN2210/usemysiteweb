@@ -24,16 +24,19 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
   
   const [isPWA, setIsPWA] = useState(isPWAMode);
   
-  console.log('🔍 PWAWrapper initial:', {
-    isFromPWA,
-    isStandaloneMode,
-    isAndroid,
-    isAndroidStandalone,
-    isStandaloneDetected,
-    isPWAMode,
-    url: window.location.href,
-    userAgent: navigator.userAgent
-  });
+  // Debug en développement seulement
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔍 PWAWrapper initial:', {
+      isFromPWA,
+      isStandaloneMode,
+      isAndroid,
+      isAndroidStandalone,
+      isStandaloneDetected,
+      isPWAMode,
+      url: window.location.href,
+      userAgent: navigator.userAgent
+    });
+  }
 
   useEffect(() => {
     // Détecter si l'app est lancée en mode PWA
@@ -44,12 +47,15 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
     const urlParams = new URLSearchParams(window.location.search);
     const isFromPWA = urlParams.get('pwa') === 'true';
     
-    console.log('🔍 PWA Detection dans useEffect:', {
-      isStandaloneMode,
-      isFromPWA,
-      url: window.location.href,
-      search: window.location.search
-    });
+    // Debug en développement seulement
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔍 PWA Detection dans useEffect:', {
+        isStandaloneMode,
+        isFromPWA,
+        url: window.location.href,
+        search: window.location.search
+      });
+    }
     
     setIsPWA(isStandaloneMode || isFromPWA);
 
@@ -62,35 +68,44 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
       document.body.classList.remove('pwa-mode');
     }
 
-    // Logger pour debug
-    console.log('🔍 PWA Detection:', {
-      isStandaloneMode,
-      isFromPWA,
-      userAgent: navigator.userAgent,
-      displayMode: window.matchMedia('(display-mode: standalone)').matches,
-      url: window.location.href,
-      urlParams: window.location.search
-    });
+    // Debug en développement seulement
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔍 PWA Detection:', {
+        isStandaloneMode,
+        isFromPWA,
+        userAgent: navigator.userAgent,
+        displayMode: window.matchMedia('(display-mode: standalone)').matches,
+        url: window.location.href,
+        urlParams: window.location.search
+      });
+    }
 
-    // Test visuel - changer la couleur de fond
-    if (isStandaloneMode || isFromPWA) {
-      document.body.style.backgroundColor = '#00FFFF';
-      console.log('🎉 MODE PWA ACTIVÉ - Fond bleu appliqué !');
-    } else {
-      document.body.style.backgroundColor = '';
-      console.log('❌ Mode navigateur normal');
+    // Mode PWA détecté (debug en développement seulement)
+    if (process.env.NODE_ENV === 'development') {
+      if (isStandaloneMode || isFromPWA) {
+        console.log('🎉 MODE PWA ACTIVÉ !');
+      } else {
+        console.log('❌ Mode navigateur normal');
+      }
     }
 
   }, [isStandalone, window.location.search]);
 
-  console.log('🔄 PWAWrapper render:', { isPWA, isStandalone });
+  // Debug en développement seulement
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔄 PWAWrapper render:', { isPWA, isStandalone });
+  }
 
   // Appliquer les styles PWA
   if (isPWAMode) {
     document.documentElement.classList.add('pwa-mode');
     document.body.classList.add('pwa-mode');
-    console.log('🎉 MODE PWA ACTIVÉ - Styles appliqués !');
-    console.log('🔍 Classes appliquées:', document.body.className);
+    
+    // Debug en développement seulement
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🎉 MODE PWA ACTIVÉ - Styles appliqués !');
+      console.log('🔍 Classes appliquées:', document.body.className);
+    }
   } else {
     document.documentElement.classList.remove('pwa-mode');
     document.body.classList.remove('pwa-mode');
@@ -98,23 +113,6 @@ const PWAWrapper: React.FC<PWAWrapperProps> = ({ children }) => {
 
   return (
     <div className={`app-container ${isPWA ? 'pwa-mode' : 'browser-mode'}`}>
-      {isPWAMode && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          background: '#FF0000',
-          color: '#FFFFFF',
-          padding: '10px',
-          textAlign: 'center',
-          zIndex: 9999,
-          fontSize: '18px',
-          fontWeight: 'bold'
-        }}>
-          🚨 PWA MODE ACTIVÉ - FOND BLEU ! 🚨
-        </div>
-      )}
       {children}
     </div>
   );
