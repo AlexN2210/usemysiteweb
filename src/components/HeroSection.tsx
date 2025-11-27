@@ -47,9 +47,6 @@ const HeroSection: React.FC = () => {
                 </span>
                 en quelques clics
               </h1>
-              <p className="text-xl md:text-2xl text-cyan-100 font-medium">
-              Trouvez le professionnel idéal en quelques clics, rapidement et facilement.
-              </p>
               <p className="text-lg text-cyan-100/90 max-w-lg mx-auto lg:mx-0">
                 USEMY révolutionne la mise en relation professionnelle avec un système de matching intelligent et intuitif.
               </p>
