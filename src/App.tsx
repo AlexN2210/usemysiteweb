@@ -11,10 +11,8 @@ import CTA from './components/CTA';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
-import PWADebug from './components/PWADebug';
 import PWAWrapper from './components/PWAWrapper';
 import PWANotification from './components/PWANotification';
-import PWATestMode from './components/PWATestMode';
 
 function App() {
   // Redirection vers la vraie app si paramètre redirect
@@ -51,11 +49,6 @@ function App() {
         {/* PWA Notification */}
         <PWANotification />
         
-        {/* PWA Debug (dev only) */}
-        <PWADebug />
-        
-        {/* PWA Test Mode (dev only) */}
-        <PWATestMode />
       </div>
     </PWAWrapper>
   );
