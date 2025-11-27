@@ -51,10 +51,10 @@ const ProblemSolution: React.FC = () => {
 
             <div className="space-y-4">
               {[
+                'Géolocalisation et matching intelligent en temps réel',
                 'Professionnels vérifiés et certifiés',
-                'Matching intelligent en temps réel',
-                'Avis clients authentiques et détaillés',
-                'Tarifs transparents et négociables',
+                'Avis clients',
+                'Centralisation de tous les réseaux du professionnel',
                 'Communication directe et instantanée'
               ].map((solution, index) => (
                 <div key={index} className="flex items-center space-x-3 p-4 bg-green-50 rounded-xl border border-green-100 transform hover:scale-102 transition-transform duration-200">
