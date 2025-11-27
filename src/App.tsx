@@ -6,7 +6,6 @@ import Features from './components/Features';
 import WhyUsemy from './components/WhyUsemy';
 import AppDemo from './components/AppDemo';
 import BusinessModel from './components/BusinessModel';
-import GrowthPlan from './components/GrowthPlan';
 import CTA from './components/CTA';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
@@ -37,7 +36,6 @@ function App() {
           <WhyUsemy />
           <AppDemo />
           <BusinessModel />
-          <GrowthPlan />
           <CTA />
           <FAQ />
         </main>
